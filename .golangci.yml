@@ -1,0 +1,11 @@
+version: "2"
+
+issues:
+  exclude-dirs:
+    - examples
+
+linters:
+  enable:
+    - errcheck
+    - govet
+    - staticcheck
