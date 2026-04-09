@@ -15,11 +15,11 @@ import (
 	"github.com/plsenp/httpx/encoding"
 	"github.com/plsenp/httpx/errors"
 
-	_ "github.com/plsenp/httpx/encoding/form"
-	_ "github.com/plsenp/httpx/encoding/json"
-	_ "github.com/plsenp/httpx/encoding/proto"
-	_ "github.com/plsenp/httpx/encoding/xml"
-	_ "github.com/plsenp/httpx/encoding/yaml"
+	_ "github.com/plsenp/httpx/encoding/form"  //nolint:revive // register form codec
+	_ "github.com/plsenp/httpx/encoding/json"  //nolint:revive // register json codec
+	_ "github.com/plsenp/httpx/encoding/proto" //nolint:revive // register proto codec
+	_ "github.com/plsenp/httpx/encoding/xml"   //nolint:revive // register xml codec
+	_ "github.com/plsenp/httpx/encoding/yaml"  //nolint:revive // register yaml codec
 )
 
 var (
@@ -34,7 +34,7 @@ func init() {
 	headerDecoder.SetTagName("header")
 }
 
-func defaultErrorHandler(w http.ResponseWriter, r *http.Request, err error) {
+func defaultErrorHandler(w http.ResponseWriter, _ *http.Request, err error) {
 	w.Header().Set("Content-Type", "application/json")
 	switch v := err.(type) {
 	case *errors.HTTPError:
@@ -86,7 +86,7 @@ func defaultRenderFunc(w http.ResponseWriter, r *http.Request, status int, v any
 	}
 	w.Header().Set("Content-Type", "application/"+codec.Name())
 	w.WriteHeader(status)
-	_, err = w.Write(data)
+	_, err = w.Write(data) //nolint:gosec // G705: response data is intentionally written to client
 	if err != nil {
 		return err
 	}

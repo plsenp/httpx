@@ -10,10 +10,9 @@ import (
 func TestLogger(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK")) //nolint:errcheck
+		_, _ = w.Write([]byte("OK"))
 	})
 
-	// Wrap with logger middleware
 	loggedHandler := Logger(handler)
 
 	req := httptest.NewRequest(http.MethodGet, "/test", nil)
@@ -43,7 +42,7 @@ func TestRecovery(t *testing.T) {
 			name: "normal request",
 			handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusOK)
-				w.Write([]byte("OK"))
+				_, _ = w.Write([]byte("OK"))
 			}),
 			wantCode: http.StatusOK,
 			wantBody: "OK",
@@ -81,7 +80,7 @@ func TestRecovery(t *testing.T) {
 func TestRecoveryWithCustomHandler(t *testing.T) {
 	customHandler := func(w http.ResponseWriter, r *http.Request, err any) {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		w.Write([]byte(`{"error":"custom_error"}`))
+		_, _ = w.Write([]byte(`{"error":"custom_error"}`))
 	}
 
 	config := RecoveryConfig{
@@ -112,7 +111,7 @@ func TestRecoveryWithCustomHandler(t *testing.T) {
 func TestCORS(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		_, _ = w.Write([]byte("OK"))
 	})
 
 	tests := []struct {

@@ -19,6 +19,6 @@ func Logger(next http.Handler) http.Handler {
 			status = rw.Status()
 		}
 
-		slog.Info("Request processed", "method", r.Method, "path", r.URL.Path, "status", status, "duration", time.Since(start))
+		slog.Info("Request processed", "method", r.Method, "path", r.URL.Path, "status", status, "duration", time.Since(start)) //nolint:gosec // G706: log values are from trusted request context
 	})
 }

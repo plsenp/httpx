@@ -60,7 +60,6 @@ func ToSlice[T Convertable](s []string) ([]T, error) {
 	return result, nil
 }
 
-
 type Convertable interface {
 	~int | ~int64 | ~int32 | ~int16 | ~int8 |
 		~uint | ~uint64 | ~uint32 | ~uint16 | ~uint8 |

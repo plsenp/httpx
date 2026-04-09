@@ -29,8 +29,8 @@ linters:
           - revive
         path: _test\.go
     paths:
-      - examples$
-      - third_party$
+      - examples/
+      - third_party/
 
 formatters:
   enable:
@@ -39,4 +39,4 @@ formatters:
   exclusions:
     generated: lax
     paths:
-      - examples$
+      - examples/

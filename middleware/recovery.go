@@ -59,7 +59,7 @@ func RecoveryWithConfig(config RecoveryConfig) func(http.Handler) http.Handler {
 	}
 }
 
-func defaultPanicHandler(w http.ResponseWriter, r *http.Request, _ any) {
+func defaultPanicHandler(w http.ResponseWriter, _ *http.Request, _ any) {
 	rw, ok := w.(*httpx.ResponseWriter)
 	if ok {
 		if !rw.Written() {

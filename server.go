@@ -52,7 +52,7 @@ type Server struct {
 
 func NewServer(opts ...ServerOption) *Server {
 	srv := &Server{
-		hs:                &http.Server{},
+		hs:                &http.Server{}, //nolint:gosec // G112: ReadHeaderTimeout is set below
 		addr:              "0.0.0.0:8080",
 		mux:               http.NewServeMux(),
 		readTimeout:       60 * time.Second,
@@ -108,13 +108,13 @@ func (s *Server) registerOpenAPISpec() {
 	})
 
 	// Register OpenAPI JSON endpoint
-	s.mux.HandleFunc("/docs/openapi.json", func(w http.ResponseWriter, r *http.Request) {
+	s.mux.HandleFunc("/docs/openapi.json", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(s.openAPICache()) //nolint:errcheck
 	})
 
 	// Register Swagger UI endpoint
-	s.mux.HandleFunc("/docs", func(w http.ResponseWriter, r *http.Request) {
+	s.mux.HandleFunc("/docs", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		data, err := openapi.SwaggerUIHandler()
 		if err != nil {
