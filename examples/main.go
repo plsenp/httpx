@@ -34,10 +34,10 @@ func main() {
 		w := ctx.Writer()
 		w.Header().Set("Content-Type", "text/plain")
 		w.WriteHeader(http.StatusOK)
-		ctx.JSON(300, in)
+		ctx.JSON(300, in) //nolint:errcheck
 		return nil
 	}, logger())
-	srv.Start()
+	srv.Start() //nolint:errcheck
 }
 
 type Biz struct {

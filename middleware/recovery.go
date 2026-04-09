@@ -70,5 +70,5 @@ func defaultPanicHandler(w http.ResponseWriter, r *http.Request, _ any) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusInternalServerError)
 	}
-	fmt.Fprintf(w, `{"error":"%s","message":"%s"}`, "internal_server_error", "Internal server error")
+	fmt.Fprintf(w, `{"error":"%s","message":"%s"}`, "internal_server_error", "Internal server error") //nolint:errcheck
 }

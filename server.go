@@ -88,7 +88,7 @@ func (s *Server) Start() error {
 	if s.tlsConfig != nil {
 		lis = tls.NewListener(lis, s.tlsConfig)
 	}
-	defer lis.Close()
+	defer func() { _ = lis.Close() }()
 	if s.openAPISpec != nil {
 		s.registerOpenAPISpec()
 	}
@@ -110,7 +110,7 @@ func (s *Server) registerOpenAPISpec() {
 	// Register OpenAPI JSON endpoint
 	s.mux.HandleFunc("/docs/openapi.json", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		w.Write(s.openAPICache())
+		w.Write(s.openAPICache()) //nolint:errcheck
 	})
 
 	// Register Swagger UI endpoint
@@ -121,7 +121,7 @@ func (s *Server) registerOpenAPISpec() {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.Write(data)
+		w.Write(data) //nolint:errcheck
 	})
 }
 

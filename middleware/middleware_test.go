@@ -10,7 +10,7 @@ import (
 func TestLogger(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		w.Write([]byte("OK")) //nolint:errcheck
 	})
 
 	// Wrap with logger middleware
